@@ -1,7 +1,6 @@
 <template>
   <section class="main_info">
     <h1>Створи новий аккаунт</h1>
-    <h3>Приєднуйся до спільноти із {{ countPeople }} людей</h3>
 
     <section class="form_reg">
       <v-text-field
@@ -33,8 +32,25 @@
       />
 
       <v-radio-group v-model="radioGroup" row>
-        <v-radio label="red" color="red" value="male"></v-radio>
-        <v-radio label="green" color="green" value="female"></v-radio>
+        <label class="mr-7">
+          <v-radio value="male" v-show="false" />
+          <div
+            class="radio_button"
+            :class="[radioGroup === 'male' ? 'active_male' : '']"
+          >
+            <v-img max-height="50" max-width="50" src="../assets/male.png" />
+          </div>
+        </label>
+
+        <label>
+          <v-radio value="female" v-show="false" />
+          <div
+            class="radio_button"
+            :class="[radioGroup === 'male' ? '' : 'active_female']"
+          >
+            <v-img max-height="50" max-width="50" src="../assets/female.png" />
+          </div>
+        </label>
       </v-radio-group>
 
       <v-text-field
@@ -135,7 +151,7 @@ export default {
       errorMessage: '',
       firstName: '',
       lastName: '',
-      radioGroup: null,
+      radioGroup: '',
       show1: false,
       show2: false,
     };
@@ -215,5 +231,20 @@ export default {
     width: 400px;
     margin: 3rem auto;
   }
+}
+.radio_button {
+  width: 185px;
+  height: 70px !important;
+  box-shadow: 0px 20px 30px rgba(179, 34, 31, 0.1);
+  border-radius: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.active_male {
+  background: linear-gradient(90deg, #0575e6 0%, #021b79 100%);
+}
+.active_female {
+  background: linear-gradient(90deg, #e47ccd 0%, #fd0079 100%);
 }
 </style>

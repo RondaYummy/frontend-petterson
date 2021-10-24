@@ -3,8 +3,8 @@
     <section class="app_bar">
       <section class="d-flex pt-4">
         <v-app-bar-nav-icon>
-          <img src="@/assets/logo.png" class="logo"
-        /></v-app-bar-nav-icon>
+          <img src="@/assets/logo.png" class="logo" />
+        </v-app-bar-nav-icon>
         <v-toolbar-title class="ml-8">NIKKI - BLOG</v-toolbar-title>
       </section>
 

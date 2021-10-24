@@ -1,34 +1,39 @@
 <template>
   <section class="d-flex justify-center flex-column">
     <div class="main_info">
-      <h1 class="text">Знайоства без перешкод</h1>
+      <h1 class="text">Спілкування без перешкод</h1>
       <p class="text2">
         Для сучасного світу згуртованість команди професіоналів однозначно
-        фіксує необхідність системи навання кадрів, відповідающих потребам.
+        фіксує необхідність системи для спілкування.
       </p>
     </div>
     <v-form class="main_section">
       <v-text-field
+        v-model="email"
         filled
         rounded
         dense
-        :rules="rules.emailRules"
-        :append-icon="marker ? 'mdi-map-marker' : 'mdi-map-marker-off'"
+        :append-icon="!emailErrors.length ? 'mdi-email-check' : 'mdi-email'"
         clearable
         class="input_style"
         background-color="#42204e"
+        :error-messages="emailErrors"
+        @input="$v.email.$touch()"
+        @blur="$v.email.$touch()"
       />
       <v-text-field
         v-model="password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-        :rules="rules.passwordRules"
         :type="show1 ? 'text' : 'password'"
+        :error-messages="passwordErrors"
         filled
         rounded
         dense
         clearable
         background-color="#42204e"
         class="input_style"
+        @input="$v.password.$touch()"
+        @blur="$v.password.$touch()"
         @click:append="show1 = !show1"
       />
       <v-btn rounded text x-large class="button_main">Увійти</v-btn>
@@ -37,26 +42,48 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import {
+  required,
+  maxLength,
+  email,
+  minLength,
+} from 'vuelidate/lib/validators';
+
 export default {
+  validations: {
+    email: { required, email },
+    password: { required, maxLength: maxLength(26), minLength: minLength(8) },
+  },
+  mixins: [validationMixin],
   data() {
     return {
       show1: false,
+      email: '',
       password: '',
-      rules: {
-        emailRules: [
-          (v) => !!v || 'Потрібний E-mail',
-          (v) => /.+@.+\..+/.test(v) || 'E-mail пошта повинна бути дійсною',
-        ],
-        passwordRules: [
-          (v) => !!v || 'Потрібний пароль',
-          (v) =>
-            (v && v.length <= 26) ||
-            'Пароль повинен мати не більше 26 символів.',
-          (v) =>
-            (v && v.length >= 8) || 'Пароль повинен мати не менше 8 символів.',
-        ],
-      },
     };
+  },
+  computed: {
+    color() {
+      return ['error', 'warning', 'success'][Math.floor(this.progress / 40)];
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.email && errors.push('Must be valid e-mail');
+      !this.$v.email.required && errors.push('E-mail is required');
+      return errors;
+    },
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return errors;
+      !this.$v.password.maxLength &&
+        errors.push('Password must be at most 26 characters long');
+      !this.$v.password.minLength &&
+        errors.push('The password must be at least 8 characters long');
+      !this.$v.password.required && errors.push('Password is required.');
+      return errors;
+    },
   },
 };
 </script>
