@@ -12,7 +12,7 @@
         filled
         rounded
         dense
-        :rules="[rules.required, rules.min]"
+        :rules="rules.emailRules"
         :append-icon="marker ? 'mdi-map-marker' : 'mdi-map-marker-off'"
         clearable
         class="input_style"
@@ -21,7 +21,7 @@
       <v-text-field
         v-model="password"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-        :rules="[rules.required, rules.min]"
+        :rules="rules.passwordRules"
         :type="show1 ? 'text' : 'password'"
         filled
         rounded
@@ -41,11 +41,20 @@ export default {
   data() {
     return {
       show1: false,
-      password: 'Password',
+      password: '',
       rules: {
-        required: (value) => !!value || 'Required.',
-        min: (v) => v.length >= 8 || 'Min 8 characters',
-        emailMatch: () => `The email and password you entered don't match`,
+        emailRules: [
+          (v) => !!v || 'Потрібний E-mail',
+          (v) => /.+@.+\..+/.test(v) || 'E-mail пошта повинна бути дійсною',
+        ],
+        passwordRules: [
+          (v) => !!v || 'Потрібний пароль',
+          (v) =>
+            (v && v.length <= 26) ||
+            'Пароль повинен мати не більше 26 символів.',
+          (v) =>
+            (v && v.length >= 8) || 'Пароль повинен мати не менше 8 символів.',
+        ],
       },
     };
   },

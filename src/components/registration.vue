@@ -1,13 +1,219 @@
 <template>
-  <section>
-    <h1>registration page</h1>
+  <section class="main_info">
+    <h1>Створи новий аккаунт</h1>
+    <h3>Приєднуйся до спільноти із {{ countPeople }} людей</h3>
+
+    <section class="form_reg">
+      <v-text-field
+        v-model="firstName"
+        :error-messages="firstNameErrors"
+        :counter="10"
+        required
+        filled
+        rounded
+        dense
+        placeholder="First name"
+        background-color="#42204e"
+        @input="$v.firstName.$touch()"
+        @blur="$v.firstName.$touch()"
+      />
+
+      <v-text-field
+        v-model="lastName"
+        :error-messages="lastNameErrors"
+        :counter="16"
+        placeholder="Last name"
+        filled
+        rounded
+        dense
+        required
+        background-color="#42204e"
+        @input="$v.lastName.$touch()"
+        @blur="$v.lastName.$touch()"
+      />
+
+      <v-radio-group v-model="radioGroup" row>
+        <v-radio label="red" color="red" value="male"></v-radio>
+        <v-radio label="green" color="green" value="female"></v-radio>
+      </v-radio-group>
+
+      <v-text-field
+        v-model="email"
+        :error-messages="emailErrors"
+        placeholder="E-mail"
+        autocomplete="email"
+        hint="This is the email you will use to login to your account"
+        required
+        clearable
+        filled
+        rounded
+        dense
+        background-color="#42204e"
+        @input="$v.email.$touch()"
+        @blur="$v.email.$touch()"
+        @keydown.enter="confirmEmailAndPass"
+      />
+      <v-text-field
+        v-model="password"
+        :type="show1 ? 'text' : 'password'"
+        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+        :counter="26"
+        :error-messages="passwordErrors"
+        placeholder="Password"
+        required
+        loading
+        filled
+        rounded
+        dense
+        background-color="#42204e"
+        @click:append="show1 = !show1"
+        @input="$v.password.$touch()"
+        @blur="$v.password.$touch()"
+      >
+        <template #progress>
+          <v-progress-linear
+            :value="progress"
+            :color="color"
+            absolute
+            height="6"
+            buffer-value="31"
+            stream
+          />
+        </template>
+      </v-text-field>
+
+      <v-text-field
+        v-model="confirmPassword"
+        :type="show2 ? 'text' : 'password'"
+        :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+        :error-messages="confirmPasswordErrors"
+        placeholder="Confirm password"
+        required
+        clearable
+        filled
+        rounded
+        dense
+        background-color="#42204e"
+        @click:append="show2 = !show2"
+        @input="$v.confirmPassword.$touch()"
+        @blur="$v.confirmPassword.$touch()"
+      />
+    </section>
     <v-btn rounded text x-large class="button_main">Зареєструватись</v-btn>
   </section>
 </template>
 
 <script>
-export default {};
+import { validationMixin } from 'vuelidate';
+import {
+  required,
+  maxLength,
+  email,
+  minLength,
+  sameAs,
+} from 'vuelidate/lib/validators';
+export default {
+  mixins: [validationMixin],
+  validations: {
+    email: { required, email },
+    password: { required, maxLength: maxLength(26), minLength: minLength(8) },
+    confirmPassword: {
+      required,
+      maxLength: maxLength(26),
+      minLength: minLength(8),
+      sameAsPassword: sameAs('password'),
+    },
+    firstName: { required, maxLength: maxLength(16), minLength: minLength(3) },
+    lastName: { required, maxLength: maxLength(16), minLength: minLength(3) },
+  },
+  data() {
+    return {
+      countPeople: '"тут буде кількість зареєстрованих"',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      errorMessage: '',
+      firstName: '',
+      lastName: '',
+      radioGroup: null,
+      show1: false,
+      show2: false,
+    };
+  },
+  computed: {
+    progress() {
+      return Math.min(100, this.password.length * 3.9);
+    },
+    color() {
+      return ['error', 'warning', 'success'][Math.floor(this.progress / 40)];
+    },
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.email.$dirty) return errors;
+      !this.$v.email.email && errors.push('Must be valid e-mail');
+      !this.$v.email.required && errors.push('E-mail is required');
+      return errors;
+    },
+    passwordErrors() {
+      const errors = [];
+      if (!this.$v.password.$dirty) return errors;
+      !this.$v.password.maxLength &&
+        errors.push('Password must be at most 26 characters long');
+      !this.$v.password.minLength &&
+        errors.push('The password must be at least 8 characters long');
+      !this.$v.password.required && errors.push('Password is required.');
+      return errors;
+    },
+    confirmPasswordErrors() {
+      const errors = [];
+      if (!this.$v.confirmPassword.$dirty) return errors;
+      !this.$v.confirmPassword.maxLength &&
+        errors.push('Password must be at most 26 characters long');
+      !this.$v.confirmPassword.minLength &&
+        errors.push('The password must be at least 8 characters long');
+      !this.$v.confirmPassword.required && errors.push('Password is required.');
+      if (!this.$v.confirmPassword.sameAsPassword) {
+        errors.push('Passwords must be identical.');
+      }
+      return errors;
+    },
+
+    firstNameErrors() {
+      const errors = [];
+      if (!this.$v.firstName.$dirty) return errors;
+      !this.$v.firstName.maxLength &&
+        errors.push('First name must be at most 10 characters long');
+      !this.$v.firstName.minLength &&
+        errors.push('The First name must be at least 3 characters long');
+      !this.$v.firstName.required && errors.push('First name is required.');
+      return errors;
+    },
+    lastNameErrors() {
+      const errors = [];
+      if (!this.$v.lastName.$dirty) return errors;
+      !this.$v.lastName.maxLength &&
+        errors.push('Last name must be at most 16 characters long');
+      !this.$v.lastName.minLength &&
+        errors.push('The Last name must be at least 3 characters long');
+      !this.$v.lastName.required && errors.push('Last name is required.');
+      return errors;
+    },
+  },
+  watch: {
+    menu(val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'));
+    },
+  },
+};
 </script>
 
-<style>
+<style lang="scss" scoped>
+.main_info {
+  width: 840px;
+  margin: 0 auto;
+  .form_reg {
+    width: 400px;
+    margin: 3rem auto;
+  }
+}
 </style>

@@ -10,9 +10,11 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "material-design-icons-iconfont": "^6.1.0",
     "moment": "^2.29.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
+    "vuelidate": "^0.7.6",
     "vuetify": "^2.5.10"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
+    "vue-cli-plugin-vuetify": "~2.4.3",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
