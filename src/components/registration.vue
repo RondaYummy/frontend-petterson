@@ -14,6 +14,7 @@
         color="white"
         placeholder="First name"
         background-color="#42204e"
+        class="ff"
         @input="$v.firstName.$touch()"
         @blur="$v.firstName.$touch()"
       >
@@ -73,7 +74,6 @@
         v-model="email"
         :error-messages="emailErrors"
         placeholder="E-mail"
-        autocomplete="email"
         hint="This is the email you will use to login to your account"
         required
         clearable
