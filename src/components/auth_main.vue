@@ -1,7 +1,7 @@
 <template>
   <section class="d-flex justify-center flex-column">
     <div class="main_info">
-      <h1 class="text">Спілкування без перешкод</h1>
+      <h1 class="text as">Спілкування без перешкод</h1>
       <p class="text2">
         Для сучасного світу згуртованість команди професіоналів однозначно
         фіксує необхідність системи для спілкування.
@@ -36,12 +36,15 @@
         @blur="$v.password.$touch()"
         @click:append="show1 = !show1"
       />
-      <v-btn rounded text x-large class="button_main">Увійти</v-btn>
+      <v-btn rounded text x-large class="button_grd" @click="authorization">
+        Увійти
+      </v-btn>
     </v-form>
   </section>
 </template>
 
 <script>
+import api from '../api';
 import { validationMixin } from 'vuelidate';
 import {
   required,
@@ -85,16 +88,25 @@ export default {
       return errors;
     },
   },
+  methods: {
+    async authorization() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        console.log('Authorization...');
+        const user_data = await api.authorization({
+          email: this.email,
+          password: this.password,
+        });
+        console.log(user_data);
+        this.email = '';
+        this.password = '';
+      }
+    },
+  },
 };
 </script>
 
 <style>
-.button_main {
-  background: linear-gradient(90deg, #ee0979 0%, #ff6a00 100%);
-  box-shadow: 0px 20px 30px rgba(179, 34, 31, 0.2);
-  border-radius: 500px;
-}
-
 .main_info {
   width: 840px;
   margin: 0 auto;

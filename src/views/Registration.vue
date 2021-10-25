@@ -3,8 +3,8 @@
     <section class="app_bar">
       <section class="d-flex pt-4">
         <v-app-bar-nav-icon>
-          <img src="@/assets/logo.png" class="logo"
-        /></v-app-bar-nav-icon>
+          <img src="@/assets/logo.png" class="logo" />
+        </v-app-bar-nav-icon>
         <v-toolbar-title class="ml-8">NIKKI - BLOG</v-toolbar-title>
       </section>
 
@@ -23,10 +23,8 @@
       </v-container>
     </v-main>
 
-    <v-footer app padless absolute>
-      <v-card flat tile class="white--text text-center" id="card-bg">
-        <v-divider />
-
+    <v-footer app padless absolute class="footer-main">
+      <v-card flat tile class="white--text text-center footer-card">
         <v-card-text class="white--text">
           {{ new Date().getFullYear() }} — <strong>Halevych</strong>
         </v-card-text>
@@ -42,6 +40,3 @@ export default {
   components: { registrationPage },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

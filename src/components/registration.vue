@@ -11,11 +11,16 @@
         filled
         rounded
         dense
+        color="white"
         placeholder="First name"
         background-color="#42204e"
         @input="$v.firstName.$touch()"
         @blur="$v.firstName.$touch()"
-      />
+      >
+        <template #counter="{ props: { value, max } }">
+          <span> {{ value }} / {{ max }}</span>
+        </template>
+      </v-text-field>
 
       <v-text-field
         v-model="lastName"
@@ -26,12 +31,23 @@
         rounded
         dense
         required
+        color="white"
         background-color="#42204e"
         @input="$v.lastName.$touch()"
         @blur="$v.lastName.$touch()"
-      />
-
-      <v-radio-group v-model="radioGroup" row>
+      >
+        <template #counter="{ props: { value, max } }">
+          <span> {{ value }} / {{ max }}</span>
+        </template>
+      </v-text-field>
+      <v-radio-group
+        v-model="radioGroup"
+        row
+        required
+        :error-messages="selectErrors"
+        @change="$v.radioGroup.$touch()"
+        @blur="$v.radioGroup.$touch()"
+      >
         <label class="mr-7">
           <v-radio value="male" v-show="false" />
           <div
@@ -46,7 +62,7 @@
           <v-radio value="female" v-show="false" />
           <div
             class="radio_button"
-            :class="[radioGroup === 'male' ? '' : 'active_female']"
+            :class="[radioGroup === 'female' ? 'active_female' : '']"
           >
             <v-img max-height="50" max-width="50" src="../assets/female.png" />
           </div>
@@ -67,20 +83,21 @@
         background-color="#42204e"
         @input="$v.email.$touch()"
         @blur="$v.email.$touch()"
-        @keydown.enter="confirmEmailAndPass"
       />
+
       <v-text-field
         v-model="password"
         :type="show1 ? 'text' : 'password'"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-        :counter="26"
         :error-messages="passwordErrors"
+        :counter="26"
         placeholder="Password"
         required
         loading
         filled
         rounded
         dense
+        color="white"
         background-color="#42204e"
         @click:append="show1 = !show1"
         @input="$v.password.$touch()"
@@ -96,6 +113,9 @@
             stream
           />
         </template>
+        <template #counter="{ props: { value, max } }">
+          <span> {{ value }} / {{ max }}</span>
+        </template>
       </v-text-field>
 
       <v-text-field
@@ -107,6 +127,7 @@
         required
         clearable
         filled
+        success
         rounded
         dense
         background-color="#42204e"
@@ -115,7 +136,9 @@
         @blur="$v.confirmPassword.$touch()"
       />
     </section>
-    <v-btn rounded text x-large class="button_main">Зареєструватись</v-btn>
+    <v-btn rounded text x-large class="button_grd" @click="registration">
+      Зареєструватись
+    </v-btn>
   </section>
 </template>
 
@@ -132,6 +155,7 @@ export default {
   mixins: [validationMixin],
   validations: {
     email: { required, email },
+    radioGroup: { required },
     password: { required, maxLength: maxLength(26), minLength: minLength(8) },
     confirmPassword: {
       required,
@@ -156,6 +180,7 @@ export default {
       show2: false,
     };
   },
+
   computed: {
     progress() {
       return Math.min(100, this.password.length * 3.9);
@@ -214,10 +239,31 @@ export default {
       !this.$v.lastName.required && errors.push('Last name is required.');
       return errors;
     },
+    selectErrors() {
+      const errors = [];
+      if (!this.$v.radioGroup.$dirty) return errors;
+      !this.$v.radioGroup.required && errors.push('Gender is required');
+      return errors;
+    },
   },
   watch: {
     menu(val) {
       val && setTimeout(() => (this.activePicker = 'YEAR'));
+    },
+  },
+  methods: {
+    registration() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        console.log('Registration...');
+        this.email,
+          this.password,
+          this.confirmPassword,
+          this.errorMessage,
+          this.firstName,
+          this.lastName,
+          (this.radioGroup = '');
+      }
     },
   },
 };
@@ -240,6 +286,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid rgb(66, 32, 78);
 }
 .active_male {
   background: linear-gradient(90deg, #0575e6 0%, #021b79 100%);

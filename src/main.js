@@ -9,6 +9,8 @@ Vue.filter('dateFormat', (v) => {
   return moment(v).format('dd/MM/YY HH:mm');
 });
 
+import "@/assets/style/global.css"; // Global styles
+
 new Vue({
   router,
   render: h => h(App),

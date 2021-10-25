@@ -23,10 +23,8 @@
       </v-container>
     </v-main>
 
-    <v-footer app padless absolute>
-      <v-card flat tile class="white--text text-center" id="card-bg">
-        <v-divider />
-
+    <v-footer app padless absolute class="footer-main">
+      <v-card flat tile class="white--text text-center footer-card">
         <v-card-text class="white--text">
           {{ new Date().getFullYear() }} — <strong>Halevych</strong>
         </v-card-text>
@@ -44,56 +42,5 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#card-bg {
-  width: 100%;
-  background: #381a42;
-}
-
-#app {
-  background: #2d1436;
-  font-family: Rubik;
-  font-style: normal;
-  font-weight: normal;
-  color: white;
-  font-size: 14px;
-  line-height: 150%;
-}
-
-.app_bar {
-  width: 100%;
-  height: 65px;
-  display: flex;
-  justify-content: space-between;
-  background: #381a42;
-  color: white;
-  padding-right: 5rem;
-  padding-left: 5rem;
-  .link_auth_block {
-    text-decoration: none;
-    font-size: 17px;
-    color: #ffffff;
-    margin: 15px;
-    line-height: 65px;
-  }
-
-  .auth_block_btn {
-    color: white;
-    border-radius: 50px;
-    border: 2px solid transparent;
-    border-image: linear-gradient(45deg, #ee0979, #ff6a00);
-    border-image-slice: 1;
-  }
-}
-
-.logo {
-  width: 60px;
-  height: 35px;
-}
-.bg-image {
-  margin-top: 3rem;
-  background-image: url('../assets/Vector.png'), url('../assets/right.png');
-  background-size: contain;
-  background-position: left, right;
-}
+<style lang="scss" scoped>
 </style>
