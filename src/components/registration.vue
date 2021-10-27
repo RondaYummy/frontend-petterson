@@ -7,6 +7,7 @@
         v-model="firstName"
         :error-messages="firstNameErrors"
         :counter="10"
+        prepend-inner-icon="mdi-account"
         required
         filled
         rounded
@@ -27,6 +28,7 @@
         v-model="lastName"
         :error-messages="lastNameErrors"
         :counter="16"
+        prepend-inner-icon="mdi-account"
         placeholder="Last name"
         filled
         rounded
@@ -76,10 +78,13 @@
         placeholder="E-mail"
         hint="This is the email you will use to login to your account"
         required
-        clearable
         filled
         rounded
         dense
+        :prepend-inner-icon="
+          !emailErrors.length ? 'mdi-email-check' : 'mdi-email'
+        "
+        :append-icon="emailErrors.length ? 'mdi-alert' : ''"
         background-color="#42204e"
         @input="$v.email.$touch()"
         @blur="$v.email.$touch()"
@@ -93,26 +98,16 @@
         :counter="26"
         placeholder="Password"
         required
-        loading
         filled
         rounded
         dense
         color="white"
+        prepend-inner-icon="mdi-form-textbox-password"
         background-color="#42204e"
         @click:append="show1 = !show1"
         @input="$v.password.$touch()"
         @blur="$v.password.$touch()"
       >
-        <template #progress>
-          <v-progress-linear
-            :value="progress"
-            :color="color"
-            absolute
-            height="6"
-            buffer-value="31"
-            stream
-          />
-        </template>
         <template #counter="{ props: { value, max } }">
           <span> {{ value }} / {{ max }}</span>
         </template>
@@ -127,14 +122,19 @@
         required
         clearable
         filled
-        success
         rounded
         dense
+        prepend-inner-icon="mdi-form-textbox-password"
+        color="white"
         background-color="#42204e"
         @click:append="show2 = !show2"
         @input="$v.confirmPassword.$touch()"
         @blur="$v.confirmPassword.$touch()"
-      />
+      >
+        <template #counter="{ props: { value, max } }">
+          <span> {{ value }} / {{ max }}</span>
+        </template>
+      </v-text-field>
     </section>
     <v-btn rounded text x-large class="button_grd" @click="registration">
       Зареєструватись

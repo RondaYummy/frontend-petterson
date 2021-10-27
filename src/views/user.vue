@@ -1,12 +1,15 @@
 <template>
   <v-app>
     <section class="app_bar">
-      <section class="d-flex pt-4">
-        <v-app-bar-nav-icon>
-          <img src="@/assets/logo.png" class="logo" />
-        </v-app-bar-nav-icon>
-        <v-toolbar-title class="ml-8">NIKKI - BLOG</v-toolbar-title>
-      </section>
+      <router-link to="/" class="logo_link">
+        <section class="d-flex pt-4">
+          <v-app-bar-nav-icon>
+            <img src="@/assets/logo.png" class="logo" />
+          </v-app-bar-nav-icon>
+          <v-toolbar-title class="ml-8 logo_text">NIKKI - BLOG</v-toolbar-title>
+        </section>
+      </router-link>
+
       <search-form />
 
       <div class="d-flex">
@@ -20,25 +23,6 @@
                   </v-avatar>
                 </v-btn>
               </template>
-              <v-card>
-                <v-list-item-content class="justify-center">
-                  <div class="mx-auto text-center">
-                    <v-avatar color="brown">
-                      <span class="white--text text-h5">{{
-                        user.initials
-                      }}</span>
-                    </v-avatar>
-
-                    <p class="text-caption mt-1">
-                      {{ user.email }}
-                    </p>
-                    <v-divider class="my-3"></v-divider>
-                    <v-btn depressed rounded text> Edit Account </v-btn>
-                    <v-divider class="my-3"></v-divider>
-                    <v-btn depressed rounded text> Disconnect </v-btn>
-                  </div>
-                </v-list-item-content>
-              </v-card>
             </v-menu>
             <span class="ml-1 fullname">{{ user.fullName }}</span>
           </v-container>
@@ -56,7 +40,11 @@
     <v-footer app padless absolute class="footer-main">
       <v-card flat tile class="white--text text-center footer-card">
         <v-card-text class="white--text">
-          {{ new Date().getFullYear() }} — <strong>Halevych</strong>
+          2021 — {{ new Date().getFullYear() }} |
+          <strong>
+            Andrii Halevych © Junior Frontend / Full - stack DEVELOPER (Vue,
+            Node )
+          </strong>
         </v-card-text>
       </v-card>
     </v-footer>

@@ -27,8 +27,8 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 50px 50px 50px 1000px rgba(255, 255, 255, 0.15) inset;
   border-radius: 15px;
   height: 100%;
-  width: 412px;
-  margin-left: -20px;
+  width: 344px;
+  margin-left: 0px;
 }
 
 #app {
@@ -50,6 +50,15 @@ input:-webkit-autofill:active {
   color: white;
   padding-right: 5rem;
   padding-left: 5rem;
+}
+
+.logo_link {
+  text-decoration: none;
+
+}
+
+.logo_link .logo_text {
+  color: white;
 }
 
 .app_bar .link_auth_block {

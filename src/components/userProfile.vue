@@ -25,6 +25,8 @@
         <v-card flat class="bt">
           <v-card-text>
             <h1 class="tittle_block">{{ firstName }} {{ lastName }}</h1>
+
+            <span class="createdAt">На сайті з {{ createdAt }}</span>
           </v-card-text>
           <section class="section_write_post">
             <v-textarea
@@ -45,15 +47,13 @@
           </section>
 
           <post-list />
-
-          <span class="createdAt">На сайті з {{ createdAt }}</span>
         </v-card>
       </v-tab-item>
 
       <v-tab-item>
         <v-card flat class="bt">
           <v-card-text>
-            <h1 class="tittle_block">friends list</h1>
+            <friend-list />
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -71,9 +71,10 @@
 
 <script>
 import postList from './post_list.vue';
+import friendList from './fliend_list.vue';
 
 export default {
-  components: { postList },
+  components: { postList, friendList },
   data: () => ({
     firstName: 'Andrii',
     lastName: 'Halevych',

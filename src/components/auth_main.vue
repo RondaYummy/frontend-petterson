@@ -13,8 +13,10 @@
         filled
         rounded
         dense
-        :append-icon="!emailErrors.length ? 'mdi-email-check' : 'mdi-email'"
-        clearable
+        :prepend-inner-icon="
+          !emailErrors.length ? 'mdi-email-check' : 'mdi-email'
+        "
+        :append-icon="emailErrors.length ? 'mdi-alert' : ''"
         class="input_style"
         background-color="#42204e"
         :error-messages="emailErrors"
@@ -29,9 +31,9 @@
         filled
         rounded
         dense
-        clearable
         background-color="#42204e"
         class="input_style"
+        prepend-inner-icon="mdi-form-textbox-password"
         @input="$v.password.$touch()"
         @blur="$v.password.$touch()"
         @click:append="show1 = !show1"
@@ -106,7 +108,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .main_info {
   width: 840px;
   margin: 0 auto;
